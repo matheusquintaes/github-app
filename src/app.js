@@ -1,3 +1,4 @@
+/* global fetch */
 'use strict'
 
 import React, { Component } from 'react'
@@ -7,24 +8,40 @@ class App extends Component {
   constructor () {
     super()
     this.state = {
-      userinfo: {
-        username: 'Matheus Quintães',
-        login: 'matheusquintaes',
-        photo: 'https://avatars1.githubusercontent.com/u/8750294?v=4',
-        repos: 13,
-        followers: 1,
-        following: 0
-      },
+      userinfo: null,
       repos: [],
       starred: []
     }
   }
 
+  handleSearch (e) {
+    const value = e.target.value
+    const keyCode = e.which || e.keyCode
+    const ENTER = 13
+
+    if (keyCode === ENTER) {
+      fetch(`https://api.github.com/users/${value}`)
+      .then(data => (data.json()))
+      .then(response => {
+        this.setState({
+          userinfo: {
+            username: response.name,
+            login: response.login,
+            photo: response.avatar_url,
+            repos: response.public_repos,
+            followers: response.followers,
+            following: response.following
+          }
+        })
+      })
+    }
+  }
   render () {
     return <AppContent
       userinfo={this.state.userinfo}
       repos={this.state.repos}
       starred={this.state.starred}
+      handleSearch={(e) => this.handleSearch(e)}
     />
   }
 }
