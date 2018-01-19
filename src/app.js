@@ -7,7 +7,14 @@ class App extends Component {
   constructor () {
     super()
     this.state = {
-      userinfo: {},
+      userinfo: {
+        username: 'Matheus Quintães',
+        login: 'matheusquintaes',
+        photo: 'https://avatars1.githubusercontent.com/u/8750294?v=4',
+        repos: 13,
+        followers: 1,
+        following: 0
+      },
       repos: [],
       starred: []
     }
