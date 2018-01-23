@@ -32,7 +32,9 @@ class App extends Component {
             repos: response.public_repos,
             followers: response.followers,
             following: response.following
-          }
+          },
+          repos: [],
+          starred: []
         })
       })
     }
@@ -40,11 +42,12 @@ class App extends Component {
 
   getRepos (type) {
     return (e) => {
-      fetch(`https://api.github.com/users/matheusquintaes/${type}`)
+      const username = this.state.userinfo.login
+      fetch(`https://api.github.com/users/${username}/${type}`)
         .then(data => (data.json()))
         .then(response => {
           this.setState({
-            [type] : response.map((repo) => ({
+            [type]: response.map((repo) => ({
               name: repo.name,
               link: repo.html_url,
               id: repo.id
